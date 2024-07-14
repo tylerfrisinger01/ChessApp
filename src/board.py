@@ -83,11 +83,67 @@ class Board:
             piece.add_move(move)
 
 
+    def straightline_moves(incrs):
+      for incr in incrs:
+        row_incr, col_incr = incr
+        possible_move_row = row + row_incr
+        possible_move_col = col + col_incr
+
+        while True:
+          if Square.in_range(possible_move_row, possible_move_col):
+            # create squares of possible new move
+            initial = Square(row, col)
+            final = Square(possible_move_row, possible_move_col)
+            # create a possible new move
+            move = Move(initial, final)
+
+            # empty = continue looping
+            if self.squares[possible_move_row][possible_move_col].isempty():
+              # append new move
+              piece.add_move(move)
+
+            # has enemy piece = add move + break
+            if self.squares[possible_move_row][possible_move_col].has_enemy_piece(piece.color):
+              # create a new move
+              piece.add_move(move)
+              break
+
+            # has team piece = break
+            if self.squares[possible_move_row][possible_move_col].has_team_piece(piece.color):
+              break
+          
+          # not in range
+          else: break
+
+          # incrementing incrs
+          possible_move_row = possible_move_row + row_incr
+          possible_move_col = possible_move_col + col_incr
+
+
     if isinstance(piece, Pawn): pawn_moves()
     elif isinstance(piece, Knight): knight_moves()
-    elif isinstance(piece, Bishop): pass
-    elif isinstance(piece, Rook): pass
-    elif isinstance(piece, Queen): pass
+    elif isinstance(piece, Bishop): straightline_moves([
+      (-1, 1), # up and to the right
+      (-1, -1), # up and to the left
+      (1, 1,), # down and to the right
+      (1, -1), # down and to the left
+    ])
+    elif isinstance(piece, Rook): straightline_moves([
+      (-1, 0), # up
+      (0, 1), # right
+      (1, 0), # down
+      (0, -1), # Left
+    ])
+    elif isinstance(piece, Queen): straightline_moves([
+      (-1, 1), # up and to the right
+      (-1, -1), # up and to the left
+      (1, 1,), # down and to the right
+      (1, -1), # down and to the left
+      (-1, 0), # up
+      (0, 1), # right
+      (1, 0), # down
+      (0, -1), # Left
+    ])
     elif isinstance(piece, King): pass
      
 
