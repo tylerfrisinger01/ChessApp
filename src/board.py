@@ -1,5 +1,6 @@
 from const import *
 from square import Square
+from move import Move
 from piece import *
 
 class Board:
@@ -33,8 +34,13 @@ class Board:
 
         if Square.in_range(possilbe_move_row, possible_move_col):
           if self.squares[possilbe_move_row][possible_move_col].isempty_or_rival(piece.color):
+            # create squares of the new move
+            initial = Square(row, col)
+            final = Square(possilbe_move_row, possible_move_col) # piece = piece
             # create new move
-            pass
+            move = Move(initial, final)
+            # append new valid move
+            piece.add_move(move)
 
 
     if isinstance(piece, Pawn):

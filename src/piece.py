@@ -20,7 +20,7 @@ class Piece:
         f'assets/images/imgs-{size}px/{self.color}_{self.name}.png') # the file path for each image
      
 
-  def add_moves(self, move):
+  def add_move(self, move):
      self.moves.append(move)
 
 
