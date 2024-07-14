@@ -70,13 +70,13 @@ class Board:
       ]
 
       for possilbe_move in possilbe_moves:
-        possilbe_move_row, possible_move_col = possilbe_move
+        possible_move_row, possible_move_col = possilbe_move
 
-        if Square.in_range(possilbe_move_row, possible_move_col):
-          if self.squares[possilbe_move_row][possible_move_col].isempty_or_enemy(piece.color):
+        if Square.in_range(possible_move_row, possible_move_col):
+          if self.squares[possible_move_row][possible_move_col].isempty_or_enemy(piece.color):
             # create squares of the new move
             initial = Square(row, col)
-            final = Square(possilbe_move_row, possible_move_col) # piece = piece
+            final = Square(possible_move_row, possible_move_col) # piece = piece
             # create new move
             move = Move(initial, final)
             # append new valid move
@@ -120,6 +120,38 @@ class Board:
           possible_move_col = possible_move_col + col_incr
 
 
+    def king_moves():
+      adjs = [
+        (row-1, col+0), # up
+        (row-1, col+1), # up - right
+        (row+0, col+1), # right
+        (row+1, col+1), # down - right
+        (row+1, col+0), # down
+        (row+1, col-1), # down - left
+        (row+0, col-1), # left
+        (row-1, col-1), # up - left
+      ]
+
+      # normal moves
+      for possible_move in adjs:
+        possible_move_row, possible_move_col = possible_move
+
+        if Square.in_range(possible_move_row, possible_move_col):
+          if self.squares[possible_move_row][possible_move_col].isempty_or_enemy(piece.color):
+            # create squares of the new move
+            initial = Square(row, col)
+            final = Square(possible_move_row, possible_move_col) # piece = piece
+            # create new move
+            move = Move(initial, final)
+            # append new valid move
+            piece.add_move(move)
+
+      # castling moves
+            
+      # queen castling
+            
+      # king castling
+
     if isinstance(piece, Pawn): pawn_moves()
     elif isinstance(piece, Knight): knight_moves()
     elif isinstance(piece, Bishop): straightline_moves([
@@ -144,7 +176,7 @@ class Board:
       (1, 0), # down
       (0, -1), # Left
     ])
-    elif isinstance(piece, King): pass
+    elif isinstance(piece, King): king_moves()
      
 
 
