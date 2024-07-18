@@ -42,8 +42,7 @@ class Board:
 
     def pawn_moves():
       # steps (how many spaces can pawn move)
-      steps = 1 if piece.moved else 2
-
+      steps = 1 if piece.moved else 2 # possible bug... moved is never set to true so can always move 2
       # vertical moves
       start = row + piece.dir
       end = row + (piece.dir * (1 + steps))
@@ -61,8 +60,6 @@ class Board:
           else: break
         # not in range
         else: break
-
-
       # diagonal moves
       possible_move_row = row + piece.dir
       possible_move_cols = [col-1, col+1]
