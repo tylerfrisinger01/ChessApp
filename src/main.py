@@ -45,13 +45,15 @@ class Main:
                     # if clicked square has a piece ? 
                     if board.squares[clicked_row][clicked_col].has_piece():
                         piece = board.squares[clicked_row][clicked_col].piece
-                        board.calc_moves(piece, clicked_row, clicked_col)
-                        dragger.save_initial(event.pos) # only want to do this if clicked a piece
-                        dragger.drag_piece(piece)
-                        # show methods
-                        game.show_bg(screen)
-                        game.show_moves(screen)
-                        game.show_pieces(screen)
+                        # valid piece (color) ?
+                        if piece.color == game.next_player:
+                            board.calc_moves(piece, clicked_row, clicked_col)
+                            dragger.save_initial(event.pos) # only want to do this if clicked a piece
+                            dragger.drag_piece(piece)
+                            # show methods
+                            game.show_bg(screen)
+                            game.show_moves(screen)
+                            game.show_pieces(screen)
 
 
                 # mouse motion
@@ -85,6 +87,8 @@ class Main:
                             # show methods
                             game.show_bg(screen)
                             game.show_pieces(screen)
+                            # next turn
+                            game.next_turn()
                     dragger.undrag_piece()
 
                 # quit
